@@ -21,14 +21,14 @@ class MovieLensDataset(Dataset):
         user_info = self.data.iloc[idx].values
         user_id = int(user_info[0])
         item_id = int(user_info[1])
-        rating = self.__preprocess_rating(user_info[2])
+        rating = int(self.__preprocess_rating(user_info[2]))
         timestamp = user_info[3].astype('float32')
         return user_id, item_id, rating, timestamp
     
     #change rate to implicit data
     def __preprocess_rating(self, rating):
-        rating[rating <= 3] = 0
-        rating[rating > 3] = 1
+        self.data.loc[self.data[2] < 4, self.data[2]] = 0
+        self.data.loc[self.data[2] >= 4, self.data[2]] = 1
 
 class MnistDataLoader(BaseDataLoader):
     """
@@ -49,5 +49,5 @@ class MovieLensDataLoader(BaseDataLoader):
     """
     def __init__(self, data_dir, batch_size, shuffle=True, validation_split=0.0, num_workers=1, training=True):
         self.data_dir = data_dir
-        self.dataset = MovieLensDataset(os.path.join(data_dir, 'u.user'))
+        self.dataset = MovieLensDataset(os.path.join(data_dir, 'ml-100k/u.data'))
         super().__init__(self.dataset, batch_size, shuffle, validation_split, num_workers)

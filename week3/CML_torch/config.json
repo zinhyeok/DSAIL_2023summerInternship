@@ -3,7 +3,7 @@
     "n_gpu": 1,
 
     "arch": {
-        "type": "CML",
+        "type": "CMLModel",
         "args": {}
     },
     "data_loader": {
@@ -37,7 +37,6 @@
     },
     "trainer": {
         "epochs": 100,
-
         "save_dir": "saved/",
         "save_period": 1,
         "verbosity": 2,
