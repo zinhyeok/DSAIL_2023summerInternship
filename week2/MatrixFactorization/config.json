@@ -1,0 +1,54 @@
+{
+    "name": "MatrixFactorization_ml10k",
+    "n_gpu": 1,
+
+    "arch": {
+        "type": "MF",
+        "args": {
+            "num_factors": 5,
+            "num_users": 943,
+            "num_items": 1682
+        }
+    },
+    "data_loader": {
+        "type": "MovieLensDataLoader",
+        "args":{
+            "data_dir": "data/",
+            "batch_size": 128,
+            "shuffle": true,
+            "validation_split": 0.2,
+            "num_workers": 1
+        }
+    },
+    "optimizer": {
+        "type": "Adam",
+        "args":{
+            "lr": 0.001,
+            "weight_decay": 0,
+            "amsgrad": true
+        }
+    },
+    "loss": "mse_loss",
+    "metrics": [
+        "rmse", "mse"
+    ],
+    "lr_scheduler": {
+        "type": "StepLR",
+        "args": {
+            "step_size": 50,
+            "gamma": 0.1
+        }
+    },
+    "trainer": {
+        "epochs": 100,
+
+        "save_dir": "saved/",
+        "save_period": 1,
+        "verbosity": 2,
+        
+        "monitor": "min val_loss",
+        "early_stop": 10,
+
+        "tensorboard": true
+    }
+}
